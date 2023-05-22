@@ -8,8 +8,5 @@ public class MainViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> isSelected = new MutableLiveData<>();
 
-    public MutableLiveData<Boolean> getIsSelected() {
-        return isSelected;
-    }
 
 }

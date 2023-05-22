@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import algonquin.cst2335.lei00029.databinding.ActivityMainBinding;
 import algonquin.cst2335.lei00029.data.MainViewModel;
@@ -13,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding variableBinding;
     private MainViewModel model;
 
-    private MutableLiveData<Boolean> drinkCoffee;
+    private MutableLiveData<Boolean> isSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +39,20 @@ public class MainActivity extends AppCompatActivity {
             variableBinding.checkBox.setChecked(selected);
             variableBinding.radioButton.setChecked(selected);
             variableBinding.switchButton.setChecked(selected);
+
+            Toast.makeText(this, "The value is now: " + selected, Toast.LENGTH_SHORT).show();
         });
 
         variableBinding.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            model.getIsSelected().postValue(isChecked);
+            model.isSelected.postValue(isChecked);
         });
 
         variableBinding.radioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            model.getIsSelected().postValue(isChecked);
+            model.isSelected.postValue(isChecked);
         });
 
         variableBinding.switchButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            model.getIsSelected().postValue(isChecked);
+            model.isSelected.postValue(isChecked);
         });
 
 

@@ -42,9 +42,17 @@
         android:text="Do you drink coffee?" />
     
     <ImageView
+        android:id="@+id/algonquin"
         android:src="@drawable/algonquin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <ImageButton
+        android:src="@drawable/algonquin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/myimagebutton" />
+        
 
     <EditText
         android:layout_width="wrap_content"

@@ -55,6 +55,16 @@ public class MainActivity extends AppCompatActivity {
             model.isSelected.postValue(isChecked);
         });
 
+        variableBinding.algonquin.setOnClickListener(view -> {
+            // handle click event here
+            Toast.makeText(this, "Image Clicked!", Toast.LENGTH_SHORT).show();
+        });
+
+        variableBinding.myimagebutton.setOnClickListener(view -> {
+            int width = view.getWidth();
+            int height = view.getHeight();
+            Toast.makeText(this, "The width = " + width + " and height = " + height, Toast.LENGTH_SHORT).show();
+        });
 
     }
 

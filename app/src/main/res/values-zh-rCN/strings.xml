@@ -3,4 +3,8 @@
     <string name="app_name">Yucong\'s Android Labs</string>
     <string name="hello_message">你好世界！</string>
     <string name="button_massage">我是按钮</string>
+    <string name="button_massage_1">按钮 1</string>
+    <string name="button_massage_2">按钮 2</string>
+    <string name="button_massage_3">按钮 3</string>
+    <string name="spin_flag">旋转小旗</string>
 </resources>

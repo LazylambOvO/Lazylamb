@@ -46,12 +46,14 @@ public class ChatRoom extends AppCompatActivity {
 
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
 
+
+        messages = chatModel.messages.getValue();
         if (messages == null) {
             messages = new ArrayList<>();
             chatModel.messages.setValue(messages);
         }
 
-        messages = chatModel.messages.getValue();
+
 
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

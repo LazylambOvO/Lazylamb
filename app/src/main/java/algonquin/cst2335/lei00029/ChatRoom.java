@@ -3,6 +3,8 @@ package algonquin.cst2335.lei00029;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,6 +62,17 @@ public class ChatRoom extends AppCompatActivity {
 
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
+
+        chatModel.selectedMessage.observe(this, (newMessageValue) -> {
+
+            MessageDetailsFragment chatFragment = new MessageDetailsFragment(newMessageValue); //newValue is the newly set ChatMessage
+            FragmentManager fMgr = getSupportFragmentManager();
+            FragmentTransaction tx = fMgr.beginTransaction();
+            tx.replace(R.id.fragmentLocation, chatFragment);
+            tx.addToBackStack(null);
+            tx.commit();
+
+        });
 
         binding.sendButton.setOnClickListener(click -> {
             String messageText = binding.textInput.getText().toString();
@@ -127,6 +140,8 @@ public class ChatRoom extends AppCompatActivity {
         });
 
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
 
     public class MyRowHolder extends RecyclerView.ViewHolder {
@@ -137,6 +152,12 @@ public class ChatRoom extends AppCompatActivity {
             super(itemView);
 
             itemView.setOnClickListener(clk ->{
+
+                int position = getAbsoluteAdapterPosition();
+                ChatMessage selected = messages.get(position);
+
+                chatModel.selectedMessage.postValue(selected);
+                /*
                 int position = getAbsoluteAdapterPosition();
 
 
@@ -163,7 +184,7 @@ public class ChatRoom extends AppCompatActivity {
                     });
                 });
                 AlertDialog dialog = builder.create();
-                dialog.show();
+                dialog.show();*/
             });
 
             messageText = itemView.findViewById(R.id.message);

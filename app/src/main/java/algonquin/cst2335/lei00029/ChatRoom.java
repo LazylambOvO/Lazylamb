@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -43,6 +46,52 @@ public class ChatRoom extends AppCompatActivity {
     private RecyclerView.Adapter myAdapter;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.item_delete){
+
+            ChatMessage selectedMessage = chatModel.selectedMessage.getValue();
+                //put your ChatMessage deletion code here. If you select this item, you should show the alert dialog
+                //asking if the user wants to delete this message.
+            if (selectedMessage != null) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+                builder.setMessage("Do you want to delete the message:" + selectedMessage.getMessage());
+                builder.setTitle("Question:");
+                builder.setNegativeButton("No",(dialog, cl) -> {});
+                builder.setPositiveButton("Yes",(dialog,cl) -> {
+                    Executor thread = Executors.newSingleThreadExecutor();
+                    thread.execute(() -> {
+                        mDAO.deleteMessage(selectedMessage); // Delete message from database
+                        runOnUiThread(() -> {
+                            messages.remove(selectedMessage);  // Remove from the messages list
+                            myAdapter.notifyDataSetChanged();  // Notify the adapter
+
+                            Snackbar.make(binding.recycleView,"You deleted a message.", Snackbar.LENGTH_LONG).show();
+                        });
+                    });
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+        }
+        else if(item.getItemId() == R.id.item_about){
+
+                Toast.makeText(this, "Version 1.0, created by Yucong Lei", Toast.LENGTH_LONG).show();
+        }
+
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -59,6 +108,8 @@ public class ChatRoom extends AppCompatActivity {
 
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.myToolbar);
 
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
